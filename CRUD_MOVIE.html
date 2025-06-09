@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Maneger</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container ">
+    <div id="1234"></div>
+
+    <script>
+      let array = JSON.parse(localStorage.getItem('array')) || [];
+      const container = document.getElementById('1234');
+
+      const allholder = document.createElement('div');
+
+      const inputcol = document.createElement('div');
+      inputcol.className = "col-lg-6 col-md-8 col-sm-12 mt-5"
+
+      const moviename = document.createElement('h4');
+      moviename.innerHTML = 'Movie Name';
+
+      const movieinput = document.createElement('input');
+      movieinput.className = 'form-control p-2';
+      movieinput.placeholder = 'ensert movie name';
+
+      const urlname = document.createElement('h4');
+      urlname.innerHTML = 'Movie URL';
+
+      const urlinput = document.createElement('input');
+      urlinput.className = 'form-control p-2';
+      urlinput.placeholder = 'ensert movie URL';
+
+      const buttonholder = document.createElement('div');
+      buttonholder.className = "mt-4 d-flex gap-2";
+
+      const button = document.createElement('button');
+      button.innerHTML = 'Create';
+      button.className = 'btn btn-success p-2';
+      button.onclick = () =>{
+        const saveData = {
+          arrayname: movieinput.value,
+          arrayinput: urlinput.value
+        };
+
+        movieinput.value = '';
+        urlinput.value = '';
+
+        array.push(saveData);
+      }
+      const readbutton = document.createElement('button');
+      readbutton.innerHTML = 'Read';
+      readbutton.className = 'btn btn-primary';
+      readbutton.onclick = () =>{
+        saveMovie()
+        rander()
+      }
+      
+      const all = document.createElement('div');
+      all.className = 'd-flex gap-2';
+      function rander(){
+        all.innerHTML = '';
+        array.forEach((element,i )=> {
+        const cardcol = document.createElement('div');
+        cardcol.className = 'col-lg-3 col-md-4 col-sm-6 mt-5';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.height = '17rem';
+        card.style.width = '100%';
+
+        const image = document.createElement('img');
+        image.className = '';
+        image.src = element.arrayinput;
+        image.style.height = '10rem';
+        image.style.objectFit = 'cover';
+
+        const title = document.createElement('h5');
+        title.innerHTML = element.arrayname;
+        title.className = 'card-title text-center mt-2';
+
+        const bholder = document.createElement('div');
+        bholder.className = 'm-1 d-flex gap-2 p-2 justify-content-center';
+
+        const delButton = document.createElement('button');
+        delButton.innerHTML = 'Delete';
+        delButton.className = ' btn btn-danger p-2';
+        delButton.onclick = () =>{
+          array.splice(i,1);
+          saveMovie();
+          rander();
+        }
+    
+        const editButton = document.createElement('button');
+        editButton.innerHTML = 'Update';
+        editButton.className = 'btn btn-primary p-2';
+        editButton.onclick = () =>{
+          cardcol.innerHTML = '';
+
+        const ccc = document.createElement('div');
+        ccc.className = 'card ';
+
+        const editname = document.createElement('h5');
+        editname.innerHTML = 'Movie Name';
+        
+
+        const editinput = document.createElement('input');
+        editinput.className = 'form-control p-2';
+        editinput.placeholder = 'Ensert New Movie Name';
+
+        const newurl = document.createElement('h5');
+        newurl.innerHTML = 'Movie URL';
+
+        const editurl = document.createElement('input');
+        editinput.placeholder = 'Ensert new URL';
+        editinput.className = 'form-control p-2';
+
+        const doneButton = document.createElement('button');
+        doneButton.className = 'btn btn-success p-2';
+        doneButton.innerHTML = 'Done';
+        doneButton.onclick = () =>{
+          array[i].arrayname = editinput.value;
+          array[i].arrayinput = editurl.value;
+          saveMovie();
+          rander();
+        }
+
+        ccc.append(editname,editinput,newurl,editurl,doneButton)
+        cardcol.append(ccc);
+
+        }
+
+        cardcol.append(card);
+        bholder.append(delButton,editButton);
+        card.append(image,title,bholder);
+        all.append(cardcol);
+        });
+
+      }
+
+      
+
+      container.append(allholder);
+      allholder.append(inputcol);
+      buttonholder.append(button,readbutton)
+      inputcol.append(moviename,movieinput,urlname,urlinput,buttonholder);
+      container.append(all);
+      function saveMovie(){
+        localStorage.setItem('array',JSON.stringify(array));
+      }
+      rander();
+    </script>
+  </div>
+</body>
+</html>

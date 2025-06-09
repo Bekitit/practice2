@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <h1 class="container">CRUD</h1>
+    <div class="container">
+        <div id="list"></div>
+    </div>
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        const container = document.getElementById('list');
+
+        const allHolder = document.createElement('div');
+        allHolder.className = 'd-flex gap-2 col-lg-4 col-md-4 col-sm-4'
+
+        const input = document.createElement('input');
+        input.placeholder = 'Type Here';
+        input.className = 'form-control p-2';
+
+        const button = document.createElement('button');
+        button.innerHTML = 'ADD';
+        button.className = 'btn btn-dark p-2';
+        button.onclick = () => {
+            tasks.push(input.value);
+            saveTasks()
+            rander();
+            input.value = '';
+        }
+
+        container.appendChild(allHolder);
+        allHolder.append(input,button);
+
+        const all = document.createElement('div');
+        container.appendChild(all);
+
+        function rander(){
+             all.innerHTML = '';
+            tasks.forEach((element,i) => {
+                const taskHolder = document.createElement('div');
+                taskHolder.className = 'd-flex gap-2 mt-3';
+                all.appendChild(taskHolder);
+                const h3 = document.createElement('h3');
+                taskHolder.appendChild(h3);
+                h3.innerHTML = element;
+
+                const delButton = document.createElement('button');
+                delButton.innerHTML = 'DELETE';
+                delButton.className = 'btn btn-danger p-2';
+                taskHolder.appendChild(delButton);
+                delButton.onclick = () =>{
+                    tasks.splice(i,1);
+                    saveTasks();
+                    rander();
+                }
+
+                const editButton = document.createElement('button');
+                editButton.innerHTML = 'UPDATE';
+                editButton.className = 'btn btn-primary p-2';
+                taskHolder.appendChild(editButton);
+                editButton.onclick = () =>{
+                    const editinput = document.createElement('input');
+                    editinput.className = 'form-control p-2';
+                    editinput.style.width = '29%';
+                    taskHolder.innerHTML = '';
+                    editinput.value = element;
+                    taskHolder.appendChild(editinput);
+                  
+
+                    const doneButton = document.createElement('button');
+                    doneButton.innerHTML = 'DONE';
+                    doneButton.className = 'btn btn-success p-2';
+                    taskHolder.appendChild(doneButton);
+                    doneButton.onclick = () =>{
+                        tasks[i] = editinput.value;
+                        saveTasks();
+                        rander();
+                    }
+                }
+             });
+        }
+        function saveTasks(){
+            localStorage.setItem('tasks',JSON.stringify(tasks));
+        }
+
+        rander()
+    </script>
+
+<body>
+    
+</body>
+</html>

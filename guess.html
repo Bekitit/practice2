@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" id="list">
+
+    </div>
+    <h2 id="result">
+
+    </h2>
+    <script>
+        const h1 = document.createElement('h1');
+        h1.innerHTML ='guessing game';
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.placeholder = 'guess the number';
+        input.id = 'userInput';
+        const button = document.createElement('button');
+        button.innerHTML = 'submit';
+        button.onclick = check;
+        const display = document.getElementById('list');
+        display.appendChild(h1);
+        display.appendChild(input);
+        display.appendChild(button);
+        const randomN = Math.floor(Math.random() * 10);
+        function check(){
+           
+            const userNum = document.getElementById('userInput').value;
+
+            if(randomN == userNum){
+            document.getElementById('result').innerHTML = 'You guessed it right';
+
+            }
+             else if(userNum < randomN){
+             document.getElementById('result').innerHTML = 'to low';
+             }
+              else if(userNum > randomN){
+             document.getElementById('result').innerHTML = 'to high';
+             }
+            
+        }
+
+
+     </script>
+</body>
+</html>

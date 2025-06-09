@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <h1 class="mt-4 text-center">Memory Game</h1>
+  <div class="container ">
+    <div class="row">
+       <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+   <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+   <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+   <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+   <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+   <div class="col-lg-2 col-md-4 col-sm-4">
+     <div class="card mt-5 bg-dark text-white" style="height: auto;height: 16.5rem;">
+     <h4 class=" text-center mt-3">Guess the number</h4>
+     <h1 class="text-center">??</h1>
+     <div class="p-3 d-flex row">
+      <input type="text" class="form-control p-2" placeholder="enter a number">
+      <button class="btn btn-primary p-2 mt-2" >submit</button>
+     </div>
+
+    </div>
+   </div>
+    </div>
+   <div class="d-flex justify-content-center">
+    <button class="btn btn-success p-2 mt-3 " >Start</button>
+   </div>
+  </div>
+  <script>
+  const startButton = document.querySelector('.btn-success');
+  const cards = document.querySelectorAll('.card');
+  const cardNumbers = [];
+
+  startButton.addEventListener('click', () => {
+    cardNumbers.length = 0; // Clear any old numbers
+
+    cards.forEach((card, index) => {
+      const randomNumber = Math.floor(Math.random() * 50) + 1;
+      cardNumbers.push(randomNumber);
+
+      const numberDisplay = card.querySelector('h1');
+      numberDisplay.textContent = randomNumber;
+
+      // Remove any previous "Correct" message
+      const oldMessage = card.querySelector('.result-message');
+      if (oldMessage) oldMessage.remove();
+
+      // Hide the number after 2 seconds
+      setTimeout(() => {
+        numberDisplay.textContent = '??';
+      }, 2000);
+
+      // Add submit functionality
+      const input = card.querySelector('input');
+      const button = card.querySelector('button');
+
+     button.onclick = () => {
+  const guess = parseInt(input.value);
+  const contentDiv = card.querySelector('.p-3');
+
+  // Remove old message if exists
+  const oldMsg = contentDiv.querySelector('.result-message');
+  if (oldMsg) oldMsg.remove();
+
+  const message = document.createElement('div');
+  message.classList.add('result-message', 'text-center', 'mt-2');
+  if (guess === cardNumbers[index]) {
+    message.textContent = 'Correct!';
+    message.style.color = 'lime';
+  } else {
+    message.textContent = 'Try again!';
+    message.style.color = 'red';
+  }
+
+  contentDiv.appendChild(message); // ✅ Now the message stays inside the card
+};
+
+    });
+  });
+</script>
+
+</body>
+</html>

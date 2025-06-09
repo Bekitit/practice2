@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+</head>
+<body>
+    <h1>
+    CRUD
+    </h1>
+    <div class="container" id="list">
+
+
+    </div>
+    <script>
+        const container = document.getElementById('list');
+        const allHolder = document.createElement('div');
+        container.appendChild(allHolder);
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'Type Here';
+
+        allHolder.appendChild(input);
+
+        const button = document.createElement('button');
+        button.innerHTML = 'ADD';
+        button.style.backgroundColor = 'black';
+        button.style.color = 'white';
+
+        allHolder.appendChild(button);
+
+        let tasks =JSON.parse(localStorage.getItem('tasks')) || [];
+
+        button.onclick = () => {
+            tasks.push(input.value);
+            input.value = '';
+            saveTasks()
+            rander()
+        }
+        const taskHolder = document.createElement('div');
+        allHolder.appendChild(taskHolder);
+
+        function rander(){
+            taskHolder.innerHTML = '';
+            tasks.forEach((element,i) => {
+                const task = document.createElement('div');
+                task.innerHTML = element;
+
+                taskHolder.appendChild(task);
+            
+            const delButton = document.createElement('button');
+            delButton.innerHTML = 'Delete';
+            delButton.style.backgroundColor = 'red';
+            delButton.style.color = 'white';
+            delButton.onclick = () =>{
+                tasks.splice(i,1);
+                saveTasks();
+                rander();
+            }
+
+            task.appendChild(delButton);
+
+            const editButton = document.createElement('button');
+            editButton.innerHTML = 'Update';
+            editButton.style.backgroundColor = 'yellow';
+            editButton.style.color = 'black';
+            editButton.onclick = () => {
+                task.innerHTML = '';
+                const newInput = document.createElement('input');
+                newInput.value = element;
+
+              task.appendChild(newInput);
+
+            const doneButton = document.createElement('button');
+            doneButton.innerHTML = 'Done';
+            doneButton.style.backgroundColor = 'green';
+            doneButton.style.color = 'white';
+
+             task.appendChild(doneButton);
+
+            doneButton.onclick = () => {
+                tasks[i] = newInput.value;
+               saveTasks() 
+                rander()
+            }
+            }
+
+            task.appendChild(editButton);
+                
+            });
+
+        }
+        function saveTasks() {
+            localStorage.setItem('tasks',JSON.stringify(tasks));
+        }
+        rander()
+    </script>
+</body>
+</html>

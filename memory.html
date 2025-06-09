@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD</title>
+
+  
+</head>
+<body>
+  <h1 class="container mt-5">CRUD</h1>
+  <div class="container">
+    <div id="list"></div>
+  </div>
+
+  <script>
+
+    let tasks = JSON.parse(localStorage.getItem('tasks'));
+
+    const container = document.getElementById('list');
+
+    const allHolder = document.createElement('div');
+    allHolder.className = "d-flex col-lg-4 col-md-4 gap-2"
+
+    const input = document.createElement('input');
+    input.placeholder = 'Type Here';
+    input.className = 'form-control p-2';
+
+    const button = document.createElement('button');
+    button.innerHTML = 'ADD';
+    button.className = 'btn btn-dark p-2';
+    button.onclick = () =>{
+      tasks.push(input.value);
+      input.value = '';
+      saveTasks();
+      render();
+      console.log(tasks);
+    }
+
+    container.appendChild(allHolder);
+    allHolder.append(input,button);
+
+    const all = document.createElement('div');
+    
+    function render(){
+
+      all.innerHTML= '';
+
+     tasks.forEach((element,i) => {
+
+      const task = document.createElement('div');
+      task.className = 'd-flex gap-2 mt-4'
+
+      const h3 = document.createElement('h3');
+      h3.innerHTML = element;
+
+      const delButton = document.createElement('button');
+      delButton.innerHTML = 'DELETE';
+      delButton.className = 'btn btn-danger p-2';
+      delButton.onclick = () => {
+        tasks.splice(i,1);
+        saveTasks();
+        render();
+      }
+
+      const editButton = document.createElement('button')
+      editButton.innerHTML = 'UPDATE';
+      editButton.className = 'btn btn-primary p-2';
+      editButton.onclick = () =>{
+        const newinput = document.createElement('input');
+        newinput.className = 'form-contor p-2';
+        newinput.style.width = '27%';
+
+        task.innerHTML = '';
+
+        
+        newinput.value = element;
+       
+        const doneButton = document.createElement('button');
+        doneButton.className = 'btn btn-success p-2';
+        doneButton.innerHTML = 'DONE';
+         task.append(newinput,doneButton);
+        doneButton.onclick = () => {
+          tasks[i] = newinput.value;
+          saveTasks();
+          render();
+
+        }
+
+      }
+      
+      task.append(h3,delButton,editButton);
+      all.appendChild(task);
+      container.appendChild(all);
+   
+
+     });
+    }
+    function saveTasks(){
+      localStorage.setItem('tasks',JSON.stringify(tasks));
+    }
+    render()
+  </script>
+</body>
+</html>
