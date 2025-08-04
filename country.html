@@ -7,6 +7,46 @@
     
 </head>
 <body>
-    
+     <div class="container mt-5" id="country-cards"></div>
+
+    <script>
+        let url = 'https://restcountries.com/v3.1/all';
+
+        fetch(url)
+        .then(response => response.json())
+        .then(response => {
+            response.forEach(country => {
+                let koda = document.getElementById('country-cards');
+
+                let div = document.createElement('div');
+                div.className = 'card m-2';
+                div.style.width = '18rem';
+                div.style.display = 'inline-block';
+
+                let img = document.createElement('img');
+                img.src = country.flags.png;
+                img.className = 'card-img-top';
+                div.appendChild(img);
+
+                let can = document.createElement('div');
+                can.className = 'card-body';
+                div.appendChild(can);
+
+                let h5 = document.createElement('h5');
+                h5.className = 'card-title';
+                h5.innerHTML = country.name.common;
+                can.appendChild(h5);
+
+                let p = document.createElement('p');
+                p.className = 'card-text';
+                p.innerHTML = country.capital ? country.capital[0] : 'No Capital';
+                can.appendChild(p);
+
+                koda.appendChild(div);
+            });
+        })
+        .catch(err => console.error('Fetch error:', err));
+    </script>
 </body>
+
 </html>
